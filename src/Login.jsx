@@ -105,19 +105,36 @@ export const Login = () => {
             console.error("VITE_GOOGLE_ID no está configurado en .env");
             return;
         }
-        try {
-            google.accounts.id.initialize({
-                client_id: clientId,
-                callback: handleCallbackResponse,
-            });
-            google.accounts.id.renderButton(
-                document.getElementById("googleDIV"),
-                { theme: "outline", size: "large" },
-            );
-        } catch (error) {
-            console.error("Error al inicializar Google Sign-In:", error);
-            setMensaje("Error al cargar Google Sign-In. Verifica la configuración.");
-            setEstadoBooleano(true);
+
+        const initializeGoogle = () => {
+            try {
+                window.google.accounts.id.initialize({
+                    client_id: clientId,
+                    callback: handleCallbackResponse,
+                });
+                window.google.accounts.id.renderButton(
+                    document.getElementById("googleDIV"),
+                    { theme: "outline", size: "large" },
+                );
+            } catch (error) {
+                console.error("Error al inicializar Google Sign-In:", error);
+                setMensaje("Error al cargar Google Sign-In. Verifica la configuración.");
+                setEstadoBooleano(true);
+            }
+        };
+
+        if (window.google && window.google.accounts) {
+            initializeGoogle();
+        } else {
+            // Esperar a que el script de Google cargue
+            const interval = setInterval(() => {
+                if (window.google && window.google.accounts) {
+                    clearInterval(interval);
+                    initializeGoogle();
+                }
+            }, 100);
+            // Limpiar intervalo si el componente se desmonta
+            return () => clearInterval(interval);
         }
     }, []);
     //MENSAJES DE ERROR
