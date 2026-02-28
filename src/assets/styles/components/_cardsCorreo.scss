@@ -1,0 +1,81 @@
+@import '../variables';
+@import '../mixins';
+
+//STYLES
+div.main-card-correo-container{
+    background-color: $color-azul;
+    display: flex;
+    flex-direction: column;
+    max-width: 290px;
+    max-height: 100%;
+    padding: .5rem;
+    border-radius: .5rem;
+    border: none;
+    margin: 0rem .5rem .7rem .5rem;
+    
+    p{
+        padding: .2rem;
+        color: $color-blanco;
+        font-size: 1.1rem;
+        font-family: $tipografia;
+    }
+    button{
+        cursor: pointer;
+        background-color: $color-gris;
+        max-width: 23%;
+        margin-left: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: .1rem;
+        padding-bottom: .1rem;
+        border-radius: 1.5rem;
+        border: none;
+        img{
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        &:hover {
+            background-color: $color-bg;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) and (max-width: 1000px) {
+    div.main-card-correo-container{
+        //background-color: $color-azul;
+        //display: flex;
+        //flex-direction: column;
+        //min-width: 180px;
+        max-width: 190px;
+        min-width: 180px;
+        //max-height: 100%;
+        //padding: .5rem;
+        //border-radius: .5rem;
+        //border: none;
+        //margin: 0rem .5rem .7rem .5rem;
+        
+        p{
+            //padding: .2rem;
+            //color: $color-blanco;
+            font-size: 1rem;
+            //font-family: $tipografia;
+        }
+        button{
+            cursor: pointer;
+            //background-color: $color-gris;
+            max-width: 31%;
+            //margin-left: auto;
+            //padding-left: 1rem;
+            //padding-right: 1rem;
+            //padding-top: .1rem;
+            //padding-bottom: .1rem;
+            //border-radius: 1rem;
+            //border: none;
+
+        }
+    }
+    
+}

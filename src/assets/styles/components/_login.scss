@@ -1,0 +1,183 @@
+//IMPORTS
+@import '../variables';
+@import '../mixins';
+
+//------------------------------------------------------------------------------------------
+// RESET ESTILOS
+*{
+    margin: 0;
+    padding: 0;
+}
+// FONDO
+body{
+    background-color: $color-gris;
+}
+
+//------------------------------------------------------------------------------------------
+
+//BG-Imagen
+body div.login {
+    background-image: url("/src/assets/img/login-bg.png");
+    background-repeat: repeat;
+    background-position: center center;
+    background-size: cover;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    //background-attachment: fixed;
+}
+
+//STYLES
+.login {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+
+    h1 {
+        font-family: $tipografia;
+        font-size: 4rem;
+        margin: .5rem;
+        span.h1-rosa {
+            color: $color-rosa;
+        }
+
+        span.h1-azul {
+            color: $color-azul;
+        }
+    }
+
+    img {
+        width: 38%;
+    }
+
+    p {
+        font-family: $tipografia;
+        font-size: x-large;
+        color: $color-blanco;
+        padding: 1.5rem;
+    }
+
+    button.btn-login-google {
+        background-color: $color-blanco;
+        font-size: 1.6rem;
+        font-family: $tipografia;
+        border: none;
+        border-radius: .5rem;
+        padding: 1rem;
+        cursor: pointer;
+    }
+    div.googlebtn{
+        display: flex;
+        @include centrar-elemento;
+        transform: scale(1.3);
+        padding: auto;
+    }
+
+    article {
+        background-color: $color-azul;
+        border: 1rem none;
+        border-radius: 3rem;
+        padding: 3rem;
+        max-width: 500px;
+        margin-left: 1rem;
+        margin-right: 1rem;
+
+        form#login {
+            label {
+                font-family: $tipografia;
+                font-size: 1.6rem;
+                color: $color-blanco;
+                display: block;
+                margin: 1rem;
+            }
+
+            input {
+                font-family: $tipografia;
+                font-size: 1.6rem;
+                color: $color-azul;
+                border: 1rem;
+                border-radius: .5rem;
+                padding: .5rem;
+                width: 80%;
+                border: none;
+            }
+
+            button.btn-login-admin {
+                background-color: $color-blanco;
+                font-size: 1.6rem;
+                font-family: $tipografia;
+                border: none;
+                border-radius: .5rem;
+                padding: .7rem;
+                margin: 1rem;
+                cursor: pointer;
+            }
+
+        }
+        div.alertLogin{
+            margin-top: 2rem;
+            background-color: $color-rosa;
+            font-family: $tipografia;
+            font-size: large;
+            color: $color-azul;
+            padding: .8rem;
+            border-radius: 2rem;
+        }
+
+    }
+}
+
+//MEDIA QUERYS
+@media only screen and (max-width: 768px) {
+    .login {
+        flex-direction: column;
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+
+        div.googlebtn{
+            display: flex;
+            @include centrar-elemento;
+            transform: scale(1);
+        }
+
+        article {
+            border-radius: 2rem;
+            padding: 1rem;
+            margin-bottom: .5rem;
+
+            div.alertLogin{
+                margin-top: 1rem;
+                background-color: $color-rosa;
+                font-family: $tipografia;
+                font-size: medium;
+                color: $color-azul;
+                padding: .5rem;
+                border-radius: 2rem;
+            }
+
+            form#login {
+                label {
+                    font-size: 1rem;
+                }
+
+                input {
+                    font-size: 1rem;
+                }
+
+                button.btn-login-admin {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}

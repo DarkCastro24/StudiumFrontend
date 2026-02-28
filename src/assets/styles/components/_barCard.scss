@@ -1,0 +1,119 @@
+//IMPORTS
+@import '../variables';
+@import '../mixins';
+
+//STYLES
+div.BardCard-container {
+    //margin-bottom: .5rem;
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    @include centrar-elemento;
+
+    button {
+        @include centrar-elemento;
+        background-color: $color-azul;
+        display: flex;
+        flex-direction: row;
+        border-radius: 1rem;
+        text-align: center;
+        border: none;
+        width: 100%;
+        cursor: pointer;
+
+        img {
+            width: 60px;
+            max-width: 60px;
+            margin-left: .5rem;
+            margin-right: .5rem;
+            float: left;
+        }
+
+        p {
+            font-size: large;
+            font-family: $tipografia;
+            color: $color-blanco;
+            text-align: left;
+            width: 100%;
+            padding: 0rem 1rem 0rem 0rem;
+        }
+    }
+
+    article {
+        display: flex;
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+
+        article {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+            background-color: $color-blanco;
+            border-radius: 1rem;
+            @include box-shadow-style;
+            padding: 1rem;
+            font-family: $tipografia;
+            font-size: large;
+
+            p {
+                padding: .2rem;
+            }
+
+            span {
+                margin-top: .5rem;
+                display: flex;
+                gap: 1rem;
+                margin-left: auto;
+
+                .btnDEL,
+                .btnEDIT {
+                    @include boton-generico;
+                    font-size: medium;
+                    width: 10vw;
+                }
+            }
+
+        }
+    }
+
+    margin-bottom:.5rem;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1234px) {
+
+    div.BardCard-container {
+        article {
+            article {
+                span {
+
+                    .btnDEL,
+                    .btnEDIT {
+                        width: 18vw;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+
+    div.BardCard-container {
+        article {
+            article {
+                span {
+                    gap: .5rem;
+                    margin: auto;
+                    margin-top: 1rem;
+                    .btnDEL,
+                    .btnEDIT {
+                        width: 36vw;
+                    }
+                }
+            }
+        }
+    }
+}

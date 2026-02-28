@@ -1,0 +1,190 @@
+@import '../variables';
+@import '../mixins';
+
+//STYLES
+div.meta-buscador-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    //text-align: center;
+    width: 100vw;
+    margin-top: .5rem;
+
+    h1 {
+        padding: 1rem;
+        font-family: $tipografia;
+        font-size: xx-large;
+    }
+
+    article.buscador {
+        width: 90%;
+
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
+
+            select {
+                font-family: $tipografia;
+                font-size: large;
+                @include boton-generico;
+                text-align: center;
+            }
+
+            input {
+                width: 100%;
+                height: 100%;
+                align-content: center;
+                font-family: $tipografia;
+                font-size: large;
+                color: $color-azul;
+                border: 1rem none;
+                border-radius: .5rem;
+                margin-left: 1rem;
+                margin-right: 1rem;
+                padding: .6rem 1rem .6rem 1rem;
+            }
+
+            button {
+                @include boton-generico;
+                padding-left: 1rem;
+                padding-right: 1rem;
+                font-size: larger;
+            }
+        }
+
+    }
+
+    div.cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem;
+        width: auto;
+        @include centrar-elemento;
+        margin-left: 10rem;
+        margin-right: 10rem;
+        margin-top: 1.2rem;
+
+        p {
+            font-size: larger;
+            font-family: $tipografia;
+        }
+    }
+
+    div.personaContainer {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 2rem;
+        row-gap: 1rem;
+        width: 100%;
+        @include centrar-elemento;
+
+        p {
+            font-size: larger;
+            font-family: $tipografia;
+        }
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    div.meta-buscador-container {
+        article.buscador {
+            width: 100%;
+
+            form {
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+
+                select {
+                    font-size: medium;
+                }
+
+                input {
+                    width: 90%;
+                    font-size: large;
+                    border: 1rem none;
+                    border-radius: .5rem;
+                    padding: .5rem;
+                    margin-top: .5rem;
+                    margin-bottom: .5rem;
+
+                }
+
+                button {
+                    font-size: large;
+                }
+            }
+        }
+
+        div.cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: auto;
+            @include centrar-elemento;
+            margin-left: 1rem;
+            margin-right: 1rem;
+
+            //margin-top: 1rem;
+            p {
+                font-size: larger;
+                font-family: $tipografia;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    div.meta-buscador-container {
+        article.buscador {
+
+            //width: 100%;
+            form {
+                margin: 0;
+                padding: 0;
+
+                select {
+                    font-size: medium;
+
+                    option {
+                        font-size: medium;
+                    }
+                }
+
+                input {
+                    font-size: large;
+                    border: 1rem none;
+                    border-radius: .5rem;
+                    padding: .5rem;
+                    margin-top: .5rem;
+                    margin-bottom: .5rem;
+
+                }
+
+                button {
+                    font-size: large;
+                }
+            }
+        }
+        div.cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            width: auto;
+            @include centrar-elemento;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            //margin-top: 1rem;
+            p{
+                font-size: larger;
+                font-family: $tipografia;
+            }
+        }
+    }
+}

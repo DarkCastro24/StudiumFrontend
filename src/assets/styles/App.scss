@@ -1,0 +1,14 @@
+//IMPORTS
+@import 'variables';
+@import 'mixins';
+//@import './components/navbar'; //Era el ejemplo mio
+@import './components/login';
+@import './components/homeCard';
+@import './components/metabuscador';
+@import './components/correo';
+@import './components/cardsCorreo';
+//NUEVO
+@import './components/HeaderRecursos';
+@import './components/ContentRecursos';
+@import './components/pageRecursos';
+@import './components/barCard';

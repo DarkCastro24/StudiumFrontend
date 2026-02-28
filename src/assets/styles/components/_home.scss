@@ -1,0 +1,67 @@
+@import '../variables';
+@import '../mixins';
+
+div.center {
+
+    font-family: $tipografia;
+
+    h1 {
+        color: $color-azul;
+        padding: 1.5rem;
+        margin: 0;
+        text-align: center;
+        font-size: xx-large;
+    }
+
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2.5rem;
+        width: auto;
+        @include centrar-elemento;
+        margin-left: 10rem;
+        margin-right: 10rem;
+    }
+
+    .pagination {
+        display: flex;
+        @include centrar-elemento;
+        width: auto;
+
+        button {
+            @include boton-generico;
+            margin: 1rem;
+            font-size: large;
+
+            &:disabled {
+                opacity: 0.6;
+            }
+        }
+
+        span {
+            font-size: large;
+        }
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    div.center {
+        .cards-container {
+            margin: .5rem;
+        }
+
+        h1 {
+            font-size: x-large;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    div.center {
+        .cards-container {
+            margin: .5rem;
+        }
+    }
+
+}

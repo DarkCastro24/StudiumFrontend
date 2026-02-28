@@ -1,0 +1,98 @@
+@import '../variables';
+@import '../mixins';
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+
+
+    .table {
+        display: block;
+        overflow: hidden;
+        table-layout: fixed;
+        border-collapse: collapse;
+        //box-shadow: 0px 10px 10px red;
+        border-radius: 10px;
+        white-space: nowrap;
+        width: 100%;
+        margin: auto;
+        overflow-y: auto;
+        overflow-x: auto;
+
+    }
+
+    .fila {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 1px 1px 6px rgba(0, 0, 0.1, 0.1);
+        border-radius: 10px;
+    }
+
+    .expand {
+        width: 100%;
+        box-shadow: 0px 1px 6px rgba(0, 0, 0.1, 0.1);
+        border-radius: 10px;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .table thead {
+        background-color: $color-rosa;
+        color: $color-azul;
+    }
+
+    .table th {
+        padding: 0.8rem;
+        background-color: $color-rosa;
+
+    }
+
+    .table td {
+        padding: 0.8rem;
+        background-color: fff;
+        border-top: 0.5px solid #ddd;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        align-items: center;
+        align-content: center;
+    }
+
+    .table tbody tr:hover {
+        background-color: #eee;
+    }
+
+
+    .label {
+        border-radius: 3px;
+        padding: 0.3rem;
+        color: white;
+    }
+
+    .label-draft {
+        background-color: #d6d5d5;
+    }
+
+    .label-live {
+        background-color: #42a942;
+    }
+
+    .label-error {
+        background-color: #d9534f;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: space-around;
+
+    }
+
+    .actions svg {
+        cursor: pointer;
+    }
+
+    .delete-btn {
+        color: #e10d05;
+    }
+}

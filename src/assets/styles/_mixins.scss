@@ -1,0 +1,27 @@
+@import 'variables';
+
+//Ejemplos de Mixis
+@mixin centrar-elemento {
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    justify-content: center;
+}
+
+@mixin boton-generico {
+    border: none;
+    border-radius: .5rem;
+    padding: .5rem;
+    font-family: $tipografia;
+    cursor: pointer;
+    color: $color-azul;
+    background-color: $color-rosa;
+    &:hover {
+        background-color: $color-azul;
+        color: $color-blanco;
+    }
+}
+
+@mixin box-shadow-style($x-offset: 0px, $y-offset: 4px, $blur-radius: 8px, $spread-radius: 0px, $color: rgba(0, 0, 0, 0.25)) {
+    box-shadow: $x-offset $y-offset $blur-radius $spread-radius $color;
+}

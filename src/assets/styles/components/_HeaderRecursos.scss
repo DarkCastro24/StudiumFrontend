@@ -1,0 +1,143 @@
+//IMPORTS
+@import '../variables';
+@import '../mixins';
+
+//STYLES
+div.HeaderRecursos{
+    background-color: $color-blanco;
+    border-radius: 1rem;
+    @include box-shadow-style;
+    font-family: $tipografia;
+    display: flex;
+    @include centrar-elemento;
+    width: 96vw;
+    height: 25vh;
+    overflow: hidden;
+    img{
+        //background-color: black;
+        max-width: 450px;
+        height: 100%;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        //background-repeat:no-repeat;
+        background-position: center;
+        background-size: cover;
+        border-radius: .5rem;
+        object-fit: cover; 
+        object-position: center;
+    }
+
+    article{
+        margin-left: 1rem;
+        margin-right: 1rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        //width: 30vw;
+        flex-grow: .8;
+        h1{
+            //padding: 0;
+            margin: 0;
+            padding: 1rem;
+            text-align: left;
+            font-size: xx-large;
+            color: $color-azul;
+        }
+        p{
+            padding: 1rem;
+            font-size: larger;
+            color: $color-rosa;
+        }
+        button{
+            @include boton-generico;
+            display: flex;
+            margin-left: auto;
+            margin-top: auto;
+            margin-bottom: 1rem;
+            font-size: large;
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+div.HeaderRecursos{
+    width: 98vw;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    gap: .5rem;
+    overflow: hidden;
+    img{
+        max-width: 120px;
+        min-height: 20vh;
+        margin: 0;
+    }
+    article{
+        flex-grow: 1;
+        margin: 0;
+        margin-right: .5rem;
+        padding: 0;
+        height: 100%;
+        width: max-content;
+        display: flex;
+        flex-direction: column;        
+        h1{
+            padding: .5rem ;
+            padding-top: .5rem;    
+            font-size: x-large;        
+        }
+        p{
+            padding: .5rem;  
+            font-size: medium;          
+        }
+        button{
+            @include boton-generico;
+            display: flex;
+            margin-left: auto;
+            margin-right: .5rem;
+            margin-top: auto;
+            margin-bottom: 1rem;
+            font-size: medium;
+        }
+    }
+}
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    div.HeaderRecursos{
+        width: 98vw;
+        height: auto;        
+        margin: 0;
+        padding: 0;
+        gap: .5rem;
+        img{
+            max-width: 280px;
+            min-height: 20vh;
+            margin-left: .5rem;
+        }
+    
+        article{
+            flex-grow: 1;
+            margin: 0;
+            margin-right: .5rem;
+            padding: 0;
+            height: 100%;
+            width: max-content;
+            display: flex;
+            flex-direction: column;        
+            h1{
+                padding: .5rem;              
+            }
+            p{
+                padding: 1rem;               
+            }
+            button{
+                @include boton-generico;
+                display: flex;
+                margin-left: auto;
+                margin-right: .5rem;
+                margin-top: auto;
+                margin-bottom: 1rem;
+            }
+        }
+    }    
+}

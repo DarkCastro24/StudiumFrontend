@@ -1,0 +1,269 @@
+//IMPORTS
+@import '../variables';
+@import '../mixins';
+
+//STYLES
+div.Correo-main-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    @include centrar-elemento;
+    h2.NOCURSOS{
+        font-size: x-large;
+        @include box-shadow-style;
+        padding: 1.5rem;
+        color: $color-blanco;
+        background-color: $color-azul;
+        border-radius: 1rem;
+        margin: 1rem
+    }
+
+    article.cursos {
+        @include box-shadow-style;
+        background-color: $color-blanco;
+        min-width: auto;
+        max-height: 80vh;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;       
+        align-items: center;
+        border-radius: 1rem;
+        margin: 1.5rem;
+
+        h1.Correo2{            
+            margin: 1rem;
+            font-size: 2rem;
+            font-family: $tipografia;
+            margin: 0;
+            padding: 1.5rem;
+            //color: $color-azul;
+        }
+
+        article {
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+        }
+    }
+
+    article.mail {
+        @include box-shadow-style;
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+        min-height: 50vh;
+        min-width: 55vw;
+        background-color: $color-blanco;
+        text-align: center;
+        margin: 1.5rem;
+        h1.Correo {
+            font-size: 2rem;
+            width: 100%;
+            font-family: $tipografia;
+            background-color: $color-azul;
+            color: $color-blanco;
+            border-radius: 1rem 1rem 0 0;
+            margin: 0;
+            padding: 1rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-content: center;
+            span {
+                display: flex;
+                align-items: center;
+                label {
+                    font-size: 1.1rem;
+                    font-family: $tipografia;
+                    width: auto;
+                    margin-left: .5rem;
+                    margin-right: .5rem;
+                }
+                input {
+                    border: none;
+                    flex-grow: 1;
+                    padding: .5rem;
+                    font-size: 1.1rem;
+                    font-family: $tipografia;
+                    border-radius: .5rem;
+                    outline: none;
+                }
+            }
+
+            span.body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                textarea {
+                    border: none;
+                    resize: none;
+                    flex-grow: 1;
+                    font-family: $tipografia;
+                    font-size: 1.1rem;
+                    border-radius: .5rem;
+                    padding: .6rem;
+                    outline: none;
+                    overflow-y: scroll;
+                    min-height: 62vh;
+                }
+            }
+            hr {
+                border-style: dashed;
+                border-color: $color-azul;
+            }
+            button {
+                @include boton-generico;
+                margin-left: auto;
+                padding-left: 2rem;
+                padding-right: 2rem;
+                font-size: 1.4rem;
+                margin-right: 1rem;
+                margin-top: .5rem;
+                margin-bottom: .5rem;
+                
+            }
+        }
+        
+
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    div.Correo-main-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        article.cursos {
+            background-color: $color-blanco;
+            min-width: 325px;
+            max-height: 35vh;
+            min-height: 20vh;
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;       
+            align-items: center;
+            border-radius: 1rem;
+            //margin: 1.5rem;
+            
+    
+            h1{            
+                margin: .5rem;
+                font-size: 1.8rem;
+                font-family: $tipografia;
+                
+            }
+    
+            article {
+                overflow-x: scroll;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                width: 100%;
+                
+            }
+        }
+    
+        article.mail {
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            //margin-left: 1rem;
+            //margin-right: 1rem;
+            height: 10%;
+            width: 90%;
+            min-height: 0;
+            min-width: 0 ;
+            
+        
+            
+            
+            margin-top: 0;
+            //margin: 1.5rem;
+            h1 {
+                font-size: 1.8rem;
+                width: 100%;
+                
+                font-family: $tipografia;
+                background-color: $color-azul;
+                color: $color-blanco;
+                border-radius: 1rem 1rem 0 0;
+            }
+    
+            form {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                //height: 100%;
+                align-content: center;
+                span {
+                    display: flex;
+                    align-items: center;
+                    
+                    label {
+                        font-size: 1rem;
+                        font-family: $tipografia;
+                        width: auto;
+                        margin-left: .5rem;
+                        margin-right: .5rem;
+                    }
+                    input {
+                        border: none;
+                        flex-grow: 1;
+                        padding: .5rem;
+                        font-size: 1rem;
+                        font-family: $tipografia;
+                        border-radius: .5rem;
+                        outline: none;
+                    }
+                }
+    
+                span.body {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    //max-width: 100%;
+                    
+                    textarea {
+                        border: none;
+                        resize: none;
+                        flex-grow: 1;
+                        font-family: $tipografia;
+                        font-size: 1rem;
+                        border-radius: .5rem;
+                        padding: .6rem;
+                        outline: none;
+                        overflow-y: scroll;
+                        
+                        height: 30%;
+                        //min-width: 70%;
+                    }
+                }
+                button {
+                    @include boton-generico;
+                    margin-left: auto;
+                    padding-left: 2rem;
+                    padding-right: 2rem;
+                    font-size: 1rem;
+                    margin-right: 1rem;
+                    margin-top: .7rem;
+                    margin-bottom: .5rem;
+                }
+            }
+    
+        }
+    }
+
+
+
+}

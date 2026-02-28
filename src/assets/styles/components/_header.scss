@@ -1,0 +1,104 @@
+@import '../variables';
+@import '../mixins';
+
+.container {
+  background-color: #1d3956;
+  margin-top: -8px;
+  margin-left: -8px;
+  margin-right: -8px;
+  display: flex;
+  justify-content: space-between;
+}
+ .menu {
+  height: 2.5rem;
+  margin-top: 12px;
+  margin-left: 20px;
+}
+ .logo {
+  height: 4.5rem;
+  width: 120px;
+  margin-right: 200px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+ .fondo-salida {
+  background-color: white;
+  border-radius: 50%;
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+ .salida {
+  height: 1.6rem;
+  margin-top: 10px;
+  margin-left: 12px;
+  cursor: pointer;
+}
+ .cerrar-session {
+  margin: 0;
+}
+.hamburguer {
+  font-size: 40px;
+  margin-top: 15px;
+  margin-left: 50px;
+  color: $color-bg;
+}
+ @media screen and (max-width: 600px) {
+  .container {
+    align-items: stretch;
+    padding: 8px;
+    justify-content: space-between;
+  }
+   .logo {
+    margin-right: 1rem;
+    //margin-left: 8rem;
+    justify-content: center;
+  }
+   .fondo-salida {
+    margin-top: 15px;
+  }
+   .salida {
+    margin: 0.5rem;
+    margin-left: 12px;
+    margin-top: 10px;
+  }
+}
+
+.menu-opciones {
+  position: absolute;
+  margin-left: -6rem;
+  background-color: #fff;
+  @include box-shadow-style;
+  margin-top: 1rem;
+  width: auto;
+  border-radius: 1rem;
+  z-index: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+
+  button {
+      margin-bottom: 10px;
+      @include boton-generico;
+  }
+}
+ .sidebar {
+  position: fixed;
+  height: 100%;
+  width: 200px;
+  color: #fff;
+  padding: 20px;
+
+  transition: 850ms;
+   p {
+    margin: 0;
+  }
+   button {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+}
+

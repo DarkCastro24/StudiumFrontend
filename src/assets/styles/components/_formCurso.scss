@@ -1,0 +1,210 @@
+//IMPORTS
+@import '../variables';
+@import '../mixins';
+
+.main_formCurso {
+
+    .h2_formCurso {
+        padding: 30px;
+        color: $color-rosa-oscuro;
+        text-align: center;
+        font-size: x-large;
+    }
+
+    .h2_formCurso_span {
+        color: $color-azul;
+    }
+
+    .formCurso {
+        width: 80%;
+        max-width: 400px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        ;
+        border-radius: 5px;
+        background-color: $color-blanco;
+        margin: auto;
+        margin-bottom: 100px;
+
+        .form-group-curso {
+            margin-bottom: 15px;
+
+            .label-formCurso {
+                display: block;
+                margin-bottom: 5px;
+                color: $color-azul;
+            }
+
+            .input-formCurso,
+            .select-formCurso,
+            .textarea-formCurso {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                margin-bottom: 5px;
+                border: none;
+                border-radius: 20px;
+
+                background-color: #fffafa;
+                -webkit-box-shadow: 9px 9px 0px -3px rgba(242, 178, 187, 0.4);
+                -moz-box-shadow: 9px 9px 0px -3px rgba(242, 178, 187, 0.4);
+                box-shadow: 9px 9px 0px -3px rgba(242, 178, 187, 0.4);
+            }
+        }
+
+        .error-formCurso {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .btn-form-Curso-con {
+            text-align: center;
+        }
+
+        .button-guardar-formCurso {
+            display: inline-block;
+            justify-content: center;
+            align-items: center;
+            background-color: $color-rosa;
+            color: $color-azul;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            margin: 12px;
+
+            &:hover {
+                background-color: $color-rosa-oscuro;
+                color: $color-blanco;
+            }
+        }
+
+        .button-return-formCurso {
+            padding: 0.8rem 1rem;
+            border-radius: 50px;
+            justify-content: center;
+            align-items: center;
+            color: #1D3956;
+            border: none;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+            &:hover {
+                background-color: #1d3856f3;
+                color: $color-gris;
+            }
+        }
+
+        .form-curso-btn-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+    }
+
+
+    .confirmation-formCurso,
+    .error-confirmation-formCurso {
+        text-align: center;
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+
+        button {
+            margin-top: 10px;
+        }
+    }
+
+    .modal{
+        display: flex;
+       z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(161, 155, 155, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+
+    .btn-regresar {
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255, 212, 212);
+        color: $color-azul;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin: 12px;
+
+        &:hover {
+            background-color: $color-rosa;
+            color: $color-azul;
+        }
+    }
+
+    .boton-confirm {
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(255, 212, 212);
+        color: $color-azul;
+        padding: 10px 25px;
+        border: none;
+        border-radius: 15px;
+        cursor: pointer;
+        margin: 12px;
+
+        &:hover {
+            background-color: $color-rosa;
+            color: $color-azul;
+        }
+    }
+}
+
+.modal-correo{
+    display: flex;
+   z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(161, 155, 155, 0.5);
+}
+
+.modal-content-correo {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.boton-confirm {
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 212, 212);
+    color: $color-azul;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 12px;
+
+    &:hover {
+        background-color: $color-rosa;
+        color: $color-azul;
+    }
+}
