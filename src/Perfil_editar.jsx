@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './assets/styles/components/_perfil.scss';
 import Notas_perfil from './Notas_perfil';
 import Cum_mat from "./Cum_mat";
@@ -18,6 +19,9 @@ function Perfil_editar() {
     const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
     const [passwordMessage, setPasswordMessage] = useState('');
     const [passwordError, setPasswordError] = useState(false);
+    const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const postUsernameLogin = async (credentials) => {
         const normalizedBaseUrl = API_URL.replace(/\/+$/, '');
@@ -36,6 +40,8 @@ function Perfil_editar() {
         let lastError;
         for (const endpoint of [...new Set(endpoints)]) {
             try {
+                console.log('Ruta de verificación de contraseña enviada:', endpoint);
+                console.log('Body de verificación enviado:', credentials);
                 return await axios.post(endpoint, credentials);
             } catch (error) {
                 const status = error?.response?.status;
@@ -102,15 +108,21 @@ function Perfil_editar() {
             setPasswordError(false);
             setPasswordMessage('');
 
+            const updateRoute = `${API_URL}/user/profile/${userId}`;
+            const updateBody = {
+                password: newPassword,
+            };
+
             await postUsernameLogin({
                 username: userData.username,
                 email: userData.username,
                 password: currentPassword,
             });
 
-            await axios.patch(`${API_URL}/user/profile/${userId}`, {
-                password: newPassword,
-            });
+            console.log('Ruta de actualización de contraseña enviada:', updateRoute);
+            console.log('Body de actualización enviado:', updateBody);
+
+            await axios.patch(updateRoute, updateBody);
 
             setCurrentPassword('');
             setNewPassword('');
@@ -153,27 +165,57 @@ function Perfil_editar() {
             <div className="password-card">
                 <h2>Actualizar contraseña</h2>
                 <form className="password-form" onSubmit={handleUpdatePassword}>
-                    <input
-                        type="password"
-                        placeholder="Clave actual"
-                        value={currentPassword}
-                        onChange={(event) => setCurrentPassword(event.target.value)}
-                        autoComplete="current-password"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Nueva clave"
-                        value={newPassword}
-                        onChange={(event) => setNewPassword(event.target.value)}
-                        autoComplete="new-password"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirmar nueva clave"
-                        value={confirmPassword}
-                        onChange={(event) => setConfirmPassword(event.target.value)}
-                        autoComplete="new-password"
-                    />
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showCurrentPassword ? "text" : "password"}
+                            placeholder="Clave actual"
+                            value={currentPassword}
+                            onChange={(event) => setCurrentPassword(event.target.value)}
+                            autoComplete="current-password"
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password-btn"
+                            onClick={() => setShowCurrentPassword((prev) => !prev)}
+                            aria-label={showCurrentPassword ? 'Ocultar clave actual' : 'Mostrar clave actual'}
+                        >
+                            {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                    </div>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showNewPassword ? "text" : "password"}
+                            placeholder="Nueva clave"
+                            value={newPassword}
+                            onChange={(event) => setNewPassword(event.target.value)}
+                            autoComplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password-btn"
+                            onClick={() => setShowNewPassword((prev) => !prev)}
+                            aria-label={showNewPassword ? 'Ocultar nueva clave' : 'Mostrar nueva clave'}
+                        >
+                            {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                    </div>
+                    <div className="password-input-wrapper">
+                        <input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirmar nueva clave"
+                            value={confirmPassword}
+                            onChange={(event) => setConfirmPassword(event.target.value)}
+                            autoComplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            className="toggle-password-btn"
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            aria-label={showConfirmPassword ? 'Ocultar confirmación de clave' : 'Mostrar confirmación de clave'}
+                        >
+                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                    </div>
                     <button type="submit" className="boton-password" disabled={isUpdatingPassword || !userData}>
                         {isUpdatingPassword ? 'Actualizando...' : 'Actualizar clave'}
                     </button>

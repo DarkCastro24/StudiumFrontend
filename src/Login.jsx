@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LogoUCA from './assets/img/LogoUCA-blanco.png';
 import { useNavigate } from 'react-router-dom';
 import { GLOBAL } from './assets/js/services'
@@ -254,6 +255,10 @@ export const Login = () => {
             return;
         }
 
+        let scriptWasInjected = false;
+        let loadListenerAttached = false;
+        let existingScriptRef = null;
+
         const initializeGoogle = () => {
             try {
                 window.google.accounts.id.initialize({
@@ -273,6 +278,7 @@ export const Login = () => {
 
         const scriptId = 'google-gsi-script';
         const existingScript = document.getElementById(scriptId);
+        existingScriptRef = existingScript;
 
         const loadGoogleScript = () => {
             const script = document.createElement('script');
@@ -286,12 +292,15 @@ export const Login = () => {
                 setEstadoBooleano(true);
             };
             document.head.appendChild(script);
+            scriptWasInjected = true;
+            existingScriptRef = script;
         };
 
         if (window.google && window.google.accounts) {
             initializeGoogle();
         } else if (existingScript) {
             existingScript.addEventListener('load', initializeGoogle, { once: true });
+            loadListenerAttached = true;
         } else {
             loadGoogleScript();
         }
@@ -300,11 +309,30 @@ export const Login = () => {
             if (window.google?.accounts?.id) {
                 window.google.accounts.id.cancel();
             }
+
+            if (loadListenerAttached && existingScriptRef) {
+                existingScriptRef.removeEventListener('load', initializeGoogle);
+            }
+
+            if (scriptWasInjected && existingScriptRef?.parentNode) {
+                existingScriptRef.parentNode.removeChild(existingScriptRef);
+            }
+
+            const oneTapIframe = document.getElementById('gsi-consent-frame');
+            if (oneTapIframe?.parentNode) {
+                oneTapIframe.parentNode.removeChild(oneTapIframe);
+            }
+
+            const oneTapContainer = document.getElementById('credential_picker_container');
+            if (oneTapContainer?.parentNode) {
+                oneTapContainer.parentNode.removeChild(oneTapContainer);
+            }
         };
     }, []);
     //MENSAJES DE ERROR
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [mostrarPassword, setMostrarPassword] = useState(false);
     const [cargandoCredenciales, setCargandoCredenciales] = useState(false);
     const [mensaje, setMensaje] = useState('');
     const [estadoBooleano, setEstadoBooleano] = useState(false);
@@ -323,13 +351,23 @@ export const Login = () => {
                         value={username}
                         onChange={(event) => setUsername(event.target.value)}
                     />
-                    <input
-                        type='password'
-                        placeholder='Contraseña'
-                        autoComplete='current-password'
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
+                    <div className='password-input-wrapper'>
+                        <input
+                            type={mostrarPassword ? 'text' : 'password'}
+                            placeholder='Contraseña'
+                            autoComplete='current-password'
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
+                        />
+                        <button
+                            type='button'
+                            className='toggle-password-btn'
+                            onClick={() => setMostrarPassword((prev) => !prev)}
+                            aria-label={mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                        >
+                            {mostrarPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                    </div>
                     <button className='btn-login-admin' type='submit' disabled={cargandoCredenciales}>
                         {cargandoCredenciales ? 'Ingresando...' : 'Iniciar sesión'}
                     </button>
