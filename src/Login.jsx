@@ -45,6 +45,12 @@ export const Login = () => {
     }
 
     const handleCallbackResponse = async (response) => {
+        if (!response?.credential) {
+            setMensaje("No se pudo completar el inicio de sesión con Google. Intenta nuevamente.");
+            setEstadoBooleano(true);
+            return;
+        }
+
         const userObject = jwtDecode(response.credential);
         //console.log(userObject); //DATOS DE GOOGLE
 
@@ -123,19 +129,36 @@ export const Login = () => {
             }
         };
 
+        const scriptId = 'google-gsi-script';
+        const existingScript = document.getElementById(scriptId);
+
+        const loadGoogleScript = () => {
+            const script = document.createElement('script');
+            script.id = scriptId;
+            script.src = 'https://accounts.google.com/gsi/client';
+            script.async = true;
+            script.defer = true;
+            script.onload = initializeGoogle;
+            script.onerror = () => {
+                setMensaje("No se pudo cargar Google Sign-In. Revisa tu conexión e intenta de nuevo.");
+                setEstadoBooleano(true);
+            };
+            document.head.appendChild(script);
+        };
+
         if (window.google && window.google.accounts) {
             initializeGoogle();
+        } else if (existingScript) {
+            existingScript.addEventListener('load', initializeGoogle, { once: true });
         } else {
-            // Esperar a que el script de Google cargue
-            const interval = setInterval(() => {
-                if (window.google && window.google.accounts) {
-                    clearInterval(interval);
-                    initializeGoogle();
-                }
-            }, 100);
-            // Limpiar intervalo si el componente se desmonta
-            return () => clearInterval(interval);
+            loadGoogleScript();
         }
+
+        return () => {
+            if (window.google?.accounts?.id) {
+                window.google.accounts.id.cancel();
+            }
+        };
     }, []);
     //MENSAJES DE ERROR
     const [mensaje, setMensaje] = useState('');
