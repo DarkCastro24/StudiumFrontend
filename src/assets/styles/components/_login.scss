@@ -52,38 +52,38 @@ body div.login {
     }
 
     img {
-        width: 38%;
+        width: 28%;
     }
 
     p {
         font-family: $tipografia;
-        font-size: x-large;
+        font-size: large;
         color: $color-blanco;
-        padding: 1.5rem;
+        padding: .8rem;
     }
 
     button.btn-login-google {
         background-color: $color-blanco;
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         font-family: $tipografia;
         border: none;
         border-radius: .5rem;
-        padding: 1rem;
+        padding: .7rem;
         cursor: pointer;
     }
     div.googlebtn{
         display: flex;
         @include centrar-elemento;
-        transform: scale(1.3);
+        transform: scale(1.1);
         padding: auto;
     }
 
     article {
         background-color: $color-azul;
         border: 1rem none;
-        border-radius: 3rem;
-        padding: 3rem;
-        max-width: 500px;
+        border-radius: 2rem;
+        padding: 1.5rem 2rem;
+        max-width: 420px;
         margin-left: 1rem;
         margin-right: 1rem;
 
@@ -94,22 +94,22 @@ body div.login {
 
             label {
                 font-family: $tipografia;
-                font-size: 1.6rem;
+                font-size: 1.2rem;
                 color: $color-blanco;
                 display: block;
-                margin: 1rem;
+                margin: .5rem;
             }
 
             input {
                 font-family: $tipografia;
-                font-size: 1.6rem;
+                font-size: 1.2rem;
                 color: $color-azul;
                 border: 1rem;
                 border-radius: .5rem;
-                padding: .5rem;
+                padding: .4rem;
                 width: 80%;
                 border: none;
-                margin-bottom: .7rem;
+                margin-bottom: .5rem;
 
                 &:focus {
                     outline: 2px solid $color-rosa;
@@ -146,12 +146,12 @@ body div.login {
 
             button.btn-login-admin {
                 background-color: $color-blanco;
-                font-size: 1.6rem;
+                font-size: 1.2rem;
                 font-family: $tipografia;
                 border: none;
                 border-radius: .5rem;
-                padding: .7rem;
-                margin: 1rem;
+                padding: .5rem;
+                margin: .5rem;
                 cursor: pointer;
                 width: 80%;
 
