@@ -1,34 +1,28 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-import Table from "./Table";
-import { Modal } from "./Modal";
-import { GLOBAL } from './assets/js/services';
+import Table from "../../components/Table";
+import { Modal } from "../../components/Modal";
+import { GLOBAL } from '../../services/services';
 
-function Notas_perfil() {
+function NotasPerfil() {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const [modalOpen, setModalOpen] = useState(false);
     const [rows, setRows] = useState([]);
     const [rowToEdit, setRowToEdit] = useState(null);
-    const [promedio, setPromedio] = useState([]);
-    const params = useParams();
+    const userId = localStorage.getItem("ID");
 
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get(`${API_URL}/user/profile/${params.id}`);
-                if (response.status === 200) {
-                    setUserData(response.data);
-                } else {
-                    console.error("Error al obtener los datos del usuario. Estado de respuesta:", response.status);
-                }
+                const response = await axios.get(`${API_URL}/user/profile/${userId}`);
+                setRows(response.data.materias_interes);
             } catch (error) {
-                console.error("Error al obtener los datos del usuario:", error.message);
+                console.error("Error fetching data:", error);
             }
         };
 
-        fetchUserData();
-    }, [params.id]); 
+        fetchData();
+    }, []);
 
     const handleDeleteRow = async (targetIndex) => {
         try {
@@ -81,4 +75,4 @@ function Notas_perfil() {
     );
 }
 
-export default Notas_perfil;
+export default NotasPerfil;

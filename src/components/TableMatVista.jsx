@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import '../src/assets/styles/components/_tableMat.scss';
-import { GLOBAL } from './assets/js/services';
+import '../assets/styles/components/_tableMat.scss';
+import { GLOBAL } from '../services/services';
 
-const Table_mat = () => {
+const TableMatVista = () => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const userId = localStorage.getItem("ID");
+    const params = useParams();
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${API_URL}/user/profile/${userId}`);
+            const response = await axios.get(`${API_URL}/user/profile/${params.id}`);
             if (response.status === 200) {
                 setUserData(response.data);
             } else {
@@ -55,4 +55,4 @@ const Table_mat = () => {
     );
 };
 
-export default Table_mat;
+export default TableMatVista;

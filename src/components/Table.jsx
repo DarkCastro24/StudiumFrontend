@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-import '../src/assets/styles/components/_table.scss'
-import { GLOBAL } from './assets/js/services';
+import { BsFillTrashFill } from "react-icons/bs";
+import '../assets/styles/components/_table.scss'
+import { GLOBAL } from '../services/services';
 
 const Table = ({ rows, deleteRow }) => {
     const API_URL = GLOBAL.map((e) => e.BASE_URL);

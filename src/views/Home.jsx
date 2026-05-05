@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import Cards from './components/Cards';
-import '../src/assets/styles/components/_home.scss';
+import Cards from '../components/Cards';
+import '../assets/styles/components/_home.scss';
 import axios from 'axios';
-import { GLOBAL } from './assets/js/services';
+import { GLOBAL } from '../services/services';
 
 function Home() {
     const API_URL = GLOBAL.map((e) => e.BASE_URL)[0]; 

@@ -1,32 +1,15 @@
-import BarCard from './components/BarCard';
-import HeaderRecursos from './components/HeaderRecursos';
-import ContentRecursos from './components/ContentRecursos';
+import BarCard from '../components/BarCard';
+import HeaderRecursos from '../components/HeaderRecursos';
+import ContentRecursos from '../components/ContentRecursos';
+import ConfirmationModal from '../components/ConfirmationModal';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { GLOBAL } from './assets/js/services';
-import { Modal_agregar_recurso } from './Modal_agregar_recurso';
+import { GLOBAL } from '../services/services';
+import { ModalAgregarRecurso } from '../components/ModalAgregarRecurso';
 import { BsFillTrashFill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-const ConfirmationModal = ({ isOpen, onClose, onConfirm }) => {
-  if (!isOpen) return null;
-
-  return (
-    <div className='MODALC'>
-      <h2>Confirmar Eliminación</h2>
-      <p>¿Estás seguro de que deseas eliminar este curso?</p>
-      <button onClick={onConfirm}>Confirmar</button>
-      <button onClick={onClose}>Cancelar</button>
-    </div>
-  );
-};
-ConfirmationModal.propTypes = {
-  isOpen: PropTypes.any,
-  onClose: PropTypes.any,
-  onConfirm: PropTypes.any
-};
 const Recursos = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -108,7 +91,7 @@ const Recursos = () => {
           ))}
 
           {isModalOpen && (
-            <Modal_agregar_recurso
+            <ModalAgregarRecurso
               idCurso={course._id}
               closeModal={() => setIsModalOpen(false)}
               onSubmit={(formData) => {

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import icon from './../assets//img/libro.png';
 import axios from 'axios';
-import { GLOBAL } from '../assets/js/services';
-import { Modal_recurso_editar } from '../Modal_recurso_editar';
+import { GLOBAL } from '../services/services';
+import { ModalRecursoEditar } from './ModalRecursoEditar';
 
 const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
 //FUNCION TEXT TO LINKS
@@ -48,7 +48,7 @@ const BarCard = ({ id, titulo, textContent, owner, id_curso }) => {
                         </span> : null
                     }
                     {isModalOpen && (
-                        <Modal_recurso_editar
+                        <ModalRecursoEditar
                             idRecurso={id}
                             idCurso={id_curso}
                             closeModal={() => setIsModalOpen(false)}

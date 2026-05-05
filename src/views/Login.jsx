@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import LogoUCA from './assets/img/LogoUCA-blanco.png';
+import LogoUCA from '../assets/img/LogoUCA-blanco.png';
 import { useNavigate } from 'react-router-dom';
-import { GLOBAL } from './assets/js/services'
+import { GLOBAL } from '../services/services'
 
 export const Login = () => {
     //CREDENCIALES

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as LuIcons from "react-icons/lu";
-import { GLOBAL } from '../assets/js/services';
+import { GLOBAL } from '../services/services';
 import axios from 'axios';
 
 const HeaderRecursos = ({ id, img, tittle, tutor }) => {

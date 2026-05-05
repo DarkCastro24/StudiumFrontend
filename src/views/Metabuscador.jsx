@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { GLOBAL } from '../assets/js/services';
-import Cards from './Cards';
-import CardPerfil from './CardPerfil';
+import { GLOBAL } from '../services/services';
+import Cards from '../components/Cards';
+import CardPerfil from '../components/CardPerfil';
 
 export const Metabuscador = () => {
   const API_URL = GLOBAL.map((e) => { return e.BASE_URL });

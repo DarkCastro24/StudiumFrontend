@@ -1,19 +1,19 @@
-import '../src/assets/styles/App.scss';
+import './assets/styles/App.scss';
 import { BrowserRouter as Router, Routes, Route, Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Login from './Login';
-import Home from './Home';
-import Header from './Header';
-import Navbar from './Navbar';
-import Correo from './Correo';
-import Metabuscador from './components/Metabuscador';
-import Perfil_editar from './Perfil_editar';
-import Form_curso from './Form_curso';
-import Recursos from './Recursos';
+import Login from './views/Login';
+import Home from './views/Home';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
+import Correo from './views/Correo';
+import Metabuscador from './views/Metabuscador';
+import PerfilEditar from './views/PerfilEditar';
+import FormCurso from './views/FormCurso';
+import Recursos from './views/Recursos';
 import axios from "axios";
-import Perfil_editar_cat from './Perfil_vista';
-import Perfil_editar_vist from './Perfil_buscar';
-import { GLOBAL } from './assets/js/services';
+import PerfilVista from './views/PerfilVista';
+import PerfilBuscar from './views/PerfilBuscar';
+import { GLOBAL } from './services/services';
 
 const AppLayout = () => (
   <>
@@ -62,17 +62,17 @@ function App() {
               path="/perfil"
               element={
                 <>
-                  {userType === 2 && <Perfil_editar />}
-                  {userType === 3 && <Perfil_editar_cat />}
+                  {userType === 2 && <PerfilEditar />}
+                  {userType === 3 && <PerfilVista />}
                 </>
               }
             />
-            <Route path="/search/user/:id" element={<Perfil_editar_vist />} />
+            <Route path="/search/user/:id" element={<PerfilBuscar />} />
             <Route path="/home" element={<Home />} />
             <Route path="/messages" element={<Correo />} />
             <Route path="/search" element={<Metabuscador />} />
             <Route path="/recursos" element={<Recursos />} />
-            <Route path="/perfil/agregar-curso" element={<Form_curso />} />
+            <Route path="/perfil/agregar-curso" element={<FormCurso />} />
           </Route>
         </Route>
         <Route path="/login" index element={<Login />} />

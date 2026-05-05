@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import './assets/styles/components/_perfil.scss';
+import '../assets/styles/components/_perfil.scss';
+import NotasPerfil from './perfil/NotasPerfil';
+import CumMat from "./perfil/CumMat";
 import axios from "axios";
-import { GLOBAL } from './assets/js/services';
+import { GLOBAL } from '../services/services';
+import Cards from '../components/Cards';
+import { useUserData } from '../hooks/useUserData';
 
-function Perfil_editar_vist() {
+function PerfilEditar() {
     const API_URL = GLOBAL[0].BASE_URL;
-    const [userData, setUserData] = useState(null);
     const userId = localStorage.getItem("ID");
+    const { userData } = useUserData(userId);
+    const [course, setCourses] = useState([]);
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -51,22 +57,17 @@ function Perfil_editar_vist() {
     };
 
     useEffect(() => {
-
-        const fetchUserData = async () => {
+        const fetchCourses = async () => {
             try {
-                const response = await axios.get(`${API_URL}/user/profile/${userId}`);
-                if (response.status === 200) {
-                    setUserData(response.data);
-                } else {
-                    console.error("Error al obtener los datos del usuario. Estado de respuesta:", response.status);
-                }
+                const response = await axios.get(`${API_URL}/course/`);
+                setCourses(response.data);
             } catch (error) {
-                console.error("Error al obtener los datos del usuario:", error.message);
+                console.error('Error al obtener los datos de los cursos', error);
             }
         };
 
-        fetchUserData();
-    }, [userId]);
+        fetchCourses();
+    }, [API_URL]);
 
     const handleUpdatePassword = async (event) => {
         event.preventDefault();
@@ -126,16 +127,25 @@ function Perfil_editar_vist() {
     };
 
     return (
-        <div className="perfil-vista">
-            <div className="cabecera-vista">
+        <div className="perfil">
+            <div className="cabecera">
                 {userData && (<img className='imagen' src={userData.imagen} alt="Imagen de perfil de Google" />)}
                 <div className="container-datos">
                     {userData && (
                         <div>
                             <h1 className="nomP">{userData.nombre}</h1>
+                            <h3 className="carP">Ingeniería Informática</h3>
                             <h3 className="corP">{userData.username}</h3>
+                            <Link to='/perfil/agregar-curso'>
+                                <button className="boton-peque">Agregar curso</button>
+                            </Link>
                         </div>
                     )}
+                </div>
+                <div className="container-botones">
+                    <Link to='/perfil/agregar-curso'>
+                        <button className="boton">Agregar curso</button>
+                    </Link>
                 </div>
             </div>
 
@@ -203,8 +213,25 @@ function Perfil_editar_vist() {
                     </div>
                 )}
             </div>
+
+            <CumMat />
+            <NotasPerfil />
+
+            <h2 className="cursos-propios">Cursos impartidos: </h2>
+            <div className='cards-container'>
+                {course.courses && Array.isArray(course.courses) && course.courses
+                    .filter(cursos => cursos.id_tutor === userId)
+                    .map(cursos => (
+                        <Cards key={cursos._id} titulo={cursos.nombre} 
+                        tutor={cursos.nombre_tutor} id={cursos._id} 
+                        f_fin={cursos.fecha_fin} 
+                        f_inicio={cursos.fecha_inicio} img={cursos.imagen} 
+                        h_inicio={cursos.horario} h_fin={""}
+                        materia={cursos.materia}></Cards>
+                    ))}
+            </div>
         </div>
     );
 }
 
-export default Perfil_editar_vist;
+export default PerfilEditar;

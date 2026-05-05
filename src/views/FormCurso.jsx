@@ -1,18 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import '../src/assets/styles/components/_formCurso.scss';
-import { GLOBAL } from './assets/js/services';
+import '../assets/styles/components/_formCurso.scss';
+import { GLOBAL } from '../services/services';
+import { useUserData } from '../hooks/useUserData';
 
-const Form_curso = ({ onSubmit = () => { }, defaultValue }) => {
+const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const userId = localStorage.getItem("ID");
-    const [userData, setUserData] = useState(null);
+    const { userData } = useUserData(userId);
     const [errors, setErrors] = useState("");
     const imagenInputRef = useRef(null);
-    const [isConfirmed, setConfirmed] = useState(false);
-
-    const [name, setName] = useState([]);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,23 +21,6 @@ const Form_curso = ({ onSubmit = () => { }, defaultValue }) => {
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/user/profile/${userId}`);
-                if (response.status === 200) {
-                    setUserData(response.data);
-                } else {
-                    console.error("Error al obtener los datos del usuario. Estado de respuesta:", response.status);
-                }
-            } catch (error) {
-                console.error("Error al obtener los datos del usuario:", error.message);
-            }
-        };
-
-        fetchUserData();
-    }, [userId]);
 
     const name_user = userData ? userData.nombre : "";
     const [formState, setFormState] = useState(
@@ -119,11 +100,8 @@ const Form_curso = ({ onSubmit = () => { }, defaultValue }) => {
         setFormState({ ...formState, [e.target.name]: e.target.value });
     };
 
-    const [messages, setMessage] = useState([]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setConfirmed(false);
 
         const validationErrors = validateForm(formState);
 
@@ -139,9 +117,7 @@ const Form_curso = ({ onSubmit = () => { }, defaultValue }) => {
             });
 
             if (response.status === 201) {
-                setMessage("¡Curso creado exitosamente!");
                 onSubmit(formState);
-                setConfirmed(true);
                 openModal();
 
                 setFormState({
@@ -158,12 +134,10 @@ const Form_curso = ({ onSubmit = () => { }, defaultValue }) => {
                 });
                 setErrors("");
             } else {
-                setMessage("ERROR");
                 console.error("Error al enviar la información. Estado de respuesta:", response.status);
                 console.error("Respuesta del servidor:", response.data);
             }
         } catch (error) {
-            setMessage("ERROR");
             console.error("Error al enviar la información:", error);
         }
     };
@@ -362,4 +336,4 @@ const Form_curso = ({ onSubmit = () => { }, defaultValue }) => {
     );
 }
 
-export default Form_curso;
+export default FormCurso;

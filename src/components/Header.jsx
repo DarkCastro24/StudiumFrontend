@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import StudiumLogo from './assets/img/StudiumLogo.png';
-import salida from './assets/img/salida.png';
-import './assets/styles/components/_header.scss';
+import StudiumLogo from '../assets/img/StudiumLogo.png';
+import salida from '../assets/img/salida.png';
+import '../assets/styles/components/_header.scss';
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as GiIcons from "react-icons/gi";

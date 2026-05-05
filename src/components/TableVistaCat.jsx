@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
-import '../src/assets/styles/components/_table.scss'
+import '../assets/styles/components/_table.scss'
 
-const Table_vista = ({ rows }) => {
+const TableVistaCat = ({ rows }) => {
 
     return (
         <div className="table-wrapper">
@@ -28,4 +27,4 @@ const Table_vista = ({ rows }) => {
 };
 
 
-export default Table_vista;
+export default TableVistaCat;

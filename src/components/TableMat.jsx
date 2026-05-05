@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import PropTypes from "prop-types";
 import axios from "axios";
-import '../src/assets/styles/components/_tableMat.scss';
-import { GLOBAL } from './assets/js/services';
+import '../assets/styles/components/_tableMat.scss';
+import { GLOBAL } from '../services/services';
 
-const Table_mat_vista = () => {
+const TableMat = () => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const params = useParams();
+    const userId = localStorage.getItem("ID");
 
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${API_URL}/user/profile/${params.id}`);
+            const response = await axios.get(`${API_URL}/user/profile/${userId}`);
             if (response.status === 200) {
                 setUserData(response.data);
             } else {
@@ -56,4 +54,4 @@ const Table_mat_vista = () => {
     );
 };
 
-export default Table_mat_vista;
+export default TableMat;

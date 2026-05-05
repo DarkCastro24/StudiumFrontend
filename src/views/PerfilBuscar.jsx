@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import './assets/styles/components/_perfil.scss';
+import '../assets/styles/components/_perfil.scss';
 import axios from "axios";
-import Cum_mat_vista from "./Cum_mat_vista";
-import { GLOBAL } from './assets/js/services';
-import Notas_perfil from "./Notas_vista";
-import Cards from './components/Cards';
+import CumMatVista from "./perfil/CumMatVista";
+import { GLOBAL } from '../services/services';
+import NotasVista from "./perfil/NotasVista";
+import Cards from '../components/Cards';
+import { useUserData } from '../hooks/useUserData';
 
-function Perfil_editar_vist() {
+function PerfilBuscar() {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
-    const [userData, setUserData] = useState(null);
     const params = useParams();
+    const { userData } = useUserData(params.id);
     const [course, setCourses] = useState([]);
 
     useEffect(() => {
@@ -23,22 +24,8 @@ function Perfil_editar_vist() {
             }
         };
 
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/user/profile/${params.id}`);
-                if (response.status === 200) {
-                    setUserData(response.data);
-                } else {
-                    console.error("Error al obtener los datos del usuario. Estado de respuesta:", response.status);
-                }
-            } catch (error) {
-                console.error("Error al obtener los datos del usuario:", error.message);
-            }
-        };
-
         fetchCourses();
-        fetchUserData();
-    }, [params.id]);
+    }, [API_URL]);
 
     return (
         <div className="perfil">
@@ -57,8 +44,8 @@ function Perfil_editar_vist() {
 
             </div>
 
-            <Cum_mat_vista />
-            <Notas_perfil />
+            <CumMatVista />
+            <NotasVista />
 
             <h2 className="cursos-propios">Cursos impartidos: </h2>
             <div className='cards-container'>
@@ -73,4 +60,4 @@ function Perfil_editar_vist() {
     );
 }
 
-export default Perfil_editar_vist;
+export default PerfilBuscar;

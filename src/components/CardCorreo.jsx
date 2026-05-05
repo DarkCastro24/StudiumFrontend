@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import icon from './../assets/img/copy-icon.png';
 import { useNavigate } from 'react-router-dom';
-import { GLOBAL } from '../assets/js/services';
+import { GLOBAL } from '../services/services';
 
 const CardCorreo = ({ titulo, horario, id, onRecipientChange, onCourseChange }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
-    const [data, setData] = useState([]);
     const navigate = useNavigate();
 
     const fetchData = async () => {

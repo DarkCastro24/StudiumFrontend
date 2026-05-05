@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import '../src/assets/styles/components/_modal.scss';
+import '../assets/styles/components/_modal.scss';
 import axios from "axios";
-import { GLOBAL } from './assets/js/services';
+import { GLOBAL } from '../services/services';
 
-export const Modal_mat = ({ closeModal, onSubmit, defaultValue }) => {
+export const ModalMat = ({ closeModal, onSubmit, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const [formState, setFormState] = useState(
         defaultValue || {

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import CardCorreo from "./components/CardCorreo";
-import { useLocation } from 'react-router-dom';
-import { GLOBAL } from './assets/js/services';
-import '../src/assets/styles/components/_formCurso.scss';
+import CardCorreo from "../components/CardCorreo";
+import { GLOBAL } from '../services/services';
+import '../assets/styles/components/_formCurso.scss';
 
 export const Correo = () => {
   const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
@@ -17,7 +16,6 @@ export const Correo = () => {
   const id_user = localStorage.getItem('ID');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalError, setIsModalError] = useState(false);
-  const [isConfirmed, setConfirmed] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -66,7 +64,6 @@ export const Correo = () => {
     event.preventDefault();
 
     if (!recipient.trim()) {
-      setConfirmed(true);
       openModalError();
       //alert("No hay correos seleccionados."); // MOSTRAR EL MODAL ACA
       return;
@@ -106,16 +103,12 @@ export const Correo = () => {
         console.log('Response not JSON:', text);
       }
 
-      setConfirmed(true);
       openModal();
 
     } catch (error) {
       console.error('Error sending email:', error);
     }
   };
-
-  const location = useLocation();
-  const { id } = location.state || [];
 
   return (
     <div className='Correo-main-container'>

@@ -3,7 +3,7 @@ import * as AiIcons from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { SidebarData } from "./NavbarData"
 import { IconContext } from "react-icons";
-import './assets/styles/components/_navbar.scss'
+import '../assets/styles/components/_navbar.scss'
 
 function Navbar() {
     const [sidebar, setSidebar] = useState(false);
