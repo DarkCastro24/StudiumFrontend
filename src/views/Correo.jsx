@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import CardCorreo from "../components/CardCorreo";
 import { GLOBAL } from '../services/services';
 import '../assets/styles/components/_formCurso.scss';
+import { showSuccess, showWarning, showError } from '../utils/alerts';
 
 export const Correo = () => {
   const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
@@ -14,24 +15,6 @@ export const Correo = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const id_user = localStorage.getItem('ID');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalError, setIsModalError] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const openModalError = () => {
-    setIsModalError(true);
-  };
-
-  const closeModalError = () => {
-    setIsModalError(false);
-  };
 
   useEffect(() => {
     fetch(`${API_URL}/course/filter/${id_user}`)
@@ -64,8 +47,10 @@ export const Correo = () => {
     event.preventDefault();
 
     if (!recipient.trim()) {
-      openModalError();
-      //alert("No hay correos seleccionados."); // MOSTRAR EL MODAL ACA
+      showWarning({
+        title: 'Sin destinatarios',
+        text: '¡Error, no se ha seleccionado destinatario!',
+      });
       return;
     }
 
@@ -97,16 +82,23 @@ export const Correo = () => {
       if (contentType && contentType.indexOf("application/json") !== -1) {
         const result = await response.json();
         console.log(result);
-        
+
       } else {
         const text = await response.text();
         console.log('Response not JSON:', text);
       }
 
-      openModal();
+      showSuccess({
+        title: '¡Correo enviado exitosamente!',
+        text: 'El mensaje fue entregado al destinatario correctamente.',
+      });
 
     } catch (error) {
       console.error('Error sending email:', error);
+      showError({
+        title: 'No se pudo enviar el correo',
+        text: 'Ocurrió un error al enviar el mensaje. Intenta nuevamente.',
+      });
     }
   };
 
@@ -150,24 +142,8 @@ export const Correo = () => {
           <button type="submit">Enviar</button>
         </form>
       </article>
-      {modalError && (
-          <div className="modal-correo">
-            <div className="modal-content-correo">
-              <h2>¡Error, no se ha seleccionado destinatario!</h2>
-              <button className="boton-confirm" onClick={closeModalError}>Aceptar</button>
-            </div>
-          </div>
-        )}
-        {isModalOpen && (
-          <div className="modal-correo">
-            <div className="modal-content-correo">
-              <h2>¡Correo enviado exitosamente!</h2>
-              <button className="boton-confirm" onClick={closeModal}>Aceptar</button>
-            </div>
-          </div>
-        )}
     </div>
-    
+
   );
 }
 

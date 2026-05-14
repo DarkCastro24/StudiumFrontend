@@ -4,6 +4,7 @@ import '../assets/styles/components/_perfil.scss';
 import axios from "axios";
 import { GLOBAL } from '../services/services';
 import { useUserData } from '../hooks/useUserData';
+import { showSuccess, showError, showWarning } from '../utils/alerts';
 
 function PerfilVista() {
     const API_URL = GLOBAL[0].BASE_URL;
@@ -13,8 +14,6 @@ function PerfilVista() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
-    const [passwordMessage, setPasswordMessage] = useState('');
-    const [passwordError, setPasswordError] = useState(false);
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -55,27 +54,31 @@ function PerfilVista() {
         event.preventDefault();
 
         if (!currentPassword || !newPassword || !confirmPassword) {
-            setPasswordError(true);
-            setPasswordMessage('Completa todos los campos de contraseña');
+            showWarning({
+                title: 'Campos incompletos',
+                text: 'Completa todos los campos de contraseña antes de continuar.',
+            });
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            setPasswordError(true);
-            setPasswordMessage('La nueva contraseña y su confirmación no coinciden');
+            showWarning({
+                title: 'Contraseñas no coinciden',
+                text: 'La nueva contraseña y su confirmación no coinciden.',
+            });
             return;
         }
 
         if (newPassword.length < 8) {
-            setPasswordError(true);
-            setPasswordMessage('La nueva contraseña debe tener al menos 8 caracteres');
+            showWarning({
+                title: 'Contraseña demasiado corta',
+                text: 'La nueva contraseña debe tener al menos 8 caracteres.',
+            });
             return;
         }
 
         try {
             setIsUpdatingPassword(true);
-            setPasswordError(false);
-            setPasswordMessage('');
 
             const updateRoute = `${API_URL}/user/profile/${userId}`;
             const updateBody = {
@@ -96,13 +99,17 @@ function PerfilVista() {
             setCurrentPassword('');
             setNewPassword('');
             setConfirmPassword('');
-            setPasswordError(false);
-            setPasswordMessage('Contraseña actualizada correctamente');
+            showSuccess({
+                title: 'Contraseña actualizada',
+                text: 'Tu contraseña se actualizó correctamente.',
+            });
         } catch (error) {
             console.error('Error al actualizar contraseña:', error);
             const mensajeError = error?.response?.data?.message || 'No se pudo actualizar la contraseña';
-            setPasswordError(true);
-            setPasswordMessage(mensajeError);
+            showError({
+                title: 'No se pudo actualizar',
+                text: mensajeError,
+            });
         } finally {
             setIsUpdatingPassword(false);
         }
@@ -180,11 +187,6 @@ function PerfilVista() {
                         {isUpdatingPassword ? 'Actualizando...' : 'Actualizar clave'}
                     </button>
                 </form>
-                {passwordMessage && (
-                    <div className={passwordError ? 'password-message error' : 'password-message success'}>
-                        {passwordMessage}
-                    </div>
-                )}
             </div>
         </div>
     );

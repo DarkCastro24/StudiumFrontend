@@ -8,21 +8,25 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import * as GiIcons from "react-icons/gi";
 import { SidebarData } from "./NavbarData"
+import { showConfirm } from '../utils/alerts';
 
 function Header() {
-    const [menuOpc, setMenuOpc] = useState(false);
     const [sidebarVisible, setSidebarVisible] = useState(false);
-    const menuRef = useRef(null);
     const sidebarRef = useRef(null);
 
-    const toggleMenu = () => {
-        setMenuOpc(!menuOpc);
-    };
-
     const navigate = useNavigate();
-    const redirectLogin = () => {
+    const handleLogout = async () => {
+        const confirmed = await showConfirm({
+            title: '¿Cerrar sesión?',
+            text: 'Tu sesión actual se cerrará y volverás a la pantalla de inicio.',
+            icon: 'question',
+            confirmButtonText: 'Cerrar sesión',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (!confirmed) return;
+
         localStorage.clear();
-        setMenuOpc(!menuOpc);
         navigate('/login');
     };
     const redirectLogo = () => {
@@ -56,13 +60,7 @@ function Header() {
             < GiIcons.GiHamburgerMenu className="hamburguer" onClick={toggleSidebar} />
             <img className='logo' src={StudiumLogo} alt="Logo de marca Studium" onClick={redirectLogo} />
             <div className='fondo-salida'>
-                <img className='salida' src={salida} alt="Botón para cerrar sesión" onClick={toggleMenu} />
-                {menuOpc && (
-                    <div className='menu-opciones' ref={menuRef}>
-                        <button onClick={redirectLogin}>Cerrar sesión</button>
-                        <button onClick={toggleMenu}>Cancelar</button>
-                    </div>
-                )}
+                <img className='salida' src={salida} alt="Botón para cerrar sesión" onClick={handleLogout} />
             </div>
 
             {sidebarVisible && (

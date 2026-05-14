@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import '../assets/styles/components/_modal.scss';
 import axios from "axios";
 import { GLOBAL } from '../services/services';
+import { showSuccess, showError, showWarning } from '../utils/alerts';
 
 export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
@@ -11,7 +12,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       promedio: "",
     }
   );
-  const [errors, setErrors] = useState("");
   const userId = localStorage.getItem("ID");
 
   const validateForm = () => {
@@ -23,19 +23,21 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       parseFloat(formState.promedio) <= 10;
 
     if (isValidMateria && isValidNota) {
-      setErrors("");
       return true;
-    } else {
-      let errorFields = [];
-      if (!isValidMateria) {
-        errorFields.push("Seleccionar una materia válida");
-      }
-      if (!isValidNota) {
-        errorFields.push("La nota ingresada debe estar entre 7 y 10");
-      }
-      setErrors(errorFields.join(", "));
-      return false;
     }
+
+    const errorFields = [];
+    if (!isValidMateria) {
+      errorFields.push("Seleccionar una materia válida");
+    }
+    if (!isValidNota) {
+      errorFields.push("La nota ingresada debe estar entre 7 y 10");
+    }
+    showWarning({
+      title: 'Datos inválidos',
+      text: errorFields.join(", "),
+    });
+    return false;
   };
 
   const handleChange = (e) => {
@@ -44,7 +46,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
 
     if (!validateForm()) return;
 
@@ -56,14 +58,26 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       if (response.status === 201) {
         console.log("Información enviada correctamente:", response.data);
         onSubmit(formState);
+        await showSuccess({
+          title: 'Materia agregada',
+          text: 'La nota se registró correctamente.',
+        });
         closeModal();
         window.location.reload();
       } else {
         console.error("Error al enviar la información. Estado de respuesta:", response.status);
         console.error("Respuesta del servidor:", response.data);
+        showError({
+          title: 'No se pudo guardar la información',
+          text: 'El servidor devolvió un estado inesperado. Intenta nuevamente.',
+        });
       }
     } catch (error) {
       console.error("Error al enviar la información:", error);
+      showError({
+        title: 'Error al guardar la información',
+        text: 'No se pudo conectar con el servidor. Inténtalo más tarde.',
+      });
     }
   };
 
@@ -153,7 +167,6 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               value={formState.promedio}
             />
           </div>
-          {errors && <div className="error">{`Error: ${errors}`}</div>}
           <button type="submit" className="btn">
             Guardar
           </button>

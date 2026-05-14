@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import '../assets/styles/components/_modal.scss';
 import axios from "axios";
 import { GLOBAL } from '../services/services';
+import { showSuccess, showError, showWarning } from '../utils/alerts';
 
 export const ModalMat = ({ closeModal, onSubmit, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
@@ -11,7 +12,6 @@ export const ModalMat = ({ closeModal, onSubmit, defaultValue }) => {
             num_materias: "",
         }
     );
-    const [errors, setErrors] = useState("");
     const userId = localStorage.getItem("ID");
 
     const validateForm = () => {
@@ -26,19 +26,21 @@ export const ModalMat = ({ closeModal, onSubmit, defaultValue }) => {
             parseFloat(formState.cum) <= 10;
 
         if (isValidNumMaterias && isValidCum) {
-            setErrors("");
             return true;
-        } else {
-            let errorFields = [];
-            if (!isValidNumMaterias) {
-                errorFields.push("El número de materias debe ser un valor entre 0 y 44");
-            }
-            if (!isValidCum) {
-                errorFields.push("El CUM ingresado debe estar entre 6 y 10");
-            }
-            setErrors(errorFields.join(", "));
-            return false;
         }
+
+        const errorFields = [];
+        if (!isValidNumMaterias) {
+            errorFields.push("El número de materias debe ser un valor entre 0 y 44");
+        }
+        if (!isValidCum) {
+            errorFields.push("El CUM ingresado debe estar entre 6 y 10");
+        }
+        showWarning({
+            title: 'Datos inválidos',
+            text: errorFields.join(", "),
+        });
+        return false;
     };
 
     const handleChange = (e) => {
@@ -61,14 +63,26 @@ export const ModalMat = ({ closeModal, onSubmit, defaultValue }) => {
             if (response.status === 200 || response.status === 201) {
                 console.log("Información enviada correctamente:", response.data);
                 onSubmit(formState);
+                await showSuccess({
+                    title: 'Información actualizada',
+                    text: 'Tus datos académicos se guardaron correctamente.',
+                });
                 closeModal();
                 window.location.reload();
             } else {
                 console.error("Error al enviar la información. Estado de respuesta:", response.status);
                 console.error("Respuesta del servidor:", response.data);
+                showError({
+                    title: 'No se pudo guardar la información',
+                    text: 'El servidor devolvió un estado inesperado. Intenta nuevamente.',
+                });
             }
         } catch (error) {
             console.error("Error al enviar la información:", error);
+            showError({
+                title: 'Error al guardar la información',
+                text: 'No se pudo conectar con el servidor. Inténtalo más tarde.',
+            });
         }
     };
 
@@ -99,7 +113,6 @@ export const ModalMat = ({ closeModal, onSubmit, defaultValue }) => {
                             value={formState.num_materias}
                         />
                     </div>
-                    {errors && <div className="error">{`Error: ${errors}`}</div>}
                     <button type="submit" className="btn">
                         Guardar
                     </button>

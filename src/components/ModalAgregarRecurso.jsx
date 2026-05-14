@@ -3,6 +3,7 @@ import '../assets/styles/components/_modal.scss';
 import axios from "axios";
 import { GLOBAL } from '../services/services';
 import PropTypes from 'prop-types';
+import { showSuccess, showError } from '../utils/alerts';
 
 export const ModalAgregarRecurso = ({ idCurso, closeModal, onSubmit, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
@@ -14,15 +15,7 @@ export const ModalAgregarRecurso = ({ idCurso, closeModal, onSubmit, defaultValu
             descripcion: "",
         }
     );
-    const [errors, setErrors] = useState("");
-    //const userId = localStorage.getItem("ID"); //LOCAL
-    /*
-    const validateForm = () => {
-        // FALTAN VALIDACIONES AYUDAAAA
-        //AQUI NO HAY XD
-        return true;
-    };
-    */
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormState((prevState) => ({
@@ -33,22 +26,31 @@ export const ModalAgregarRecurso = ({ idCurso, closeModal, onSubmit, defaultValu
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //if (!validateForm()) return;
         try {
             const response = await axios.post(`${API_URL}/course/resources/${idCurso}`, formState);
             if (response.status === 200 || response.status === 201) {
                 console.log("Información enviada correctamente:", response.data);
                 onSubmit(formState);
+                await showSuccess({
+                    title: 'Recurso agregado',
+                    text: 'El recurso fue añadido correctamente al curso.',
+                });
                 closeModal();
                 window.location.reload();
             } else {
                 console.error("Error al enviar la información. Estado de respuesta:", response.status);
                 console.error("Respuesta del servidor:", response.data);
-                setErrors("Error al enviar la información. Verifica los datos e intenta nuevamente.");
+                showError({
+                    title: 'No se pudo agregar el recurso',
+                    text: 'Verifica los datos e intenta nuevamente.',
+                });
             }
         } catch (error) {
             console.error("Error al enviar la información:", error);
-            setErrors("Error de conexión. Inténtalo nuevamente más tarde.");
+            showError({
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Inténtalo nuevamente más tarde.',
+            });
         }
 
     };
@@ -92,8 +94,6 @@ export const ModalAgregarRecurso = ({ idCurso, closeModal, onSubmit, defaultValu
               className="auto-resize-textarea"
             />
           </div>
-                    {errors && <div className="error">{`Error: ${errors}`}</div>
-                    }
                     <button type="submit" className="btn">
                         Guardar
                     </button>

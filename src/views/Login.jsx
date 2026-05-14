@@ -5,6 +5,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LogoUCA from '../assets/img/LogoUCA-blanco.png';
 import { useNavigate } from 'react-router-dom';
 import { GLOBAL } from '../services/services'
+import { showError, showWarning } from '../utils/alerts';
 
 export const Login = () => {
     //CREDENCIALES
@@ -138,13 +139,14 @@ export const Login = () => {
         event.preventDefault();
 
         if (!username.trim() || !password.trim()) {
-            setMensaje('Completa correo y contraseña');
-            setEstadoBooleano(true);
+            showWarning({
+                title: 'Campos incompletos',
+                text: 'Por favor completa tu correo y contraseña antes de continuar.',
+            });
             return;
         }
 
         setCargandoCredenciales(true);
-        setEstadoBooleano(false);
 
         try {
             const response = await postUsernameLogin({
@@ -179,8 +181,10 @@ export const Login = () => {
                 error?.response?.data?.error ||
                 error?.response?.data?.msg ||
                 'Correo o contraseña inválidos';
-            setMensaje(mensajeError);
-            setEstadoBooleano(true);
+            showError({
+                title: 'No se pudo iniciar sesión',
+                text: mensajeError,
+            });
         } finally {
             setCargandoCredenciales(false);
         }
@@ -188,8 +192,10 @@ export const Login = () => {
 
     const handleCallbackResponse = async (response) => {
         if (!response?.credential) {
-            setMensaje("No se pudo completar el inicio de sesión con Google. Intenta nuevamente.");
-            setEstadoBooleano(true);
+            showError({
+                title: 'Inicio de sesión interrumpido',
+                text: 'No se pudo completar el inicio de sesión con Google. Intenta nuevamente.',
+            });
             return;
         }
 
@@ -198,8 +204,10 @@ export const Login = () => {
 
         if (!validarDominioCorreo(userObject.email)) {
             //SE DETIENE SI NO ES UN DOMINIO VALIDO
-            setMensaje("Inicia sesión con un correo válido (Gmail, Hotmail, Yahoo, iCloud)")
-            setEstadoBooleano(true);
+            showWarning({
+                title: 'Correo no permitido',
+                text: 'Inicia sesión con un correo válido (Gmail, Hotmail, Yahoo, iCloud).',
+            });
             return;
         }
         //DATOS QUE SE ENVIAN A LA API
@@ -209,8 +217,6 @@ export const Login = () => {
         localStorage.setItem("EMAIL", userObject.email);
         localStorage.setItem("NAME", nameAsString);
         localStorage.setItem("TOKEN", response.credential);
-
-        setEstadoBooleano(false);
 
         if (validarEstudiante(userObject.email)) {
             //ESTUDIANTE
@@ -224,8 +230,10 @@ export const Login = () => {
                 await realizarPeticionPost(formEST);
             } catch (error) {
                 console.error("Error al enviar los datos del usuario:", error);
-                setMensaje("Error al conectar con la API")
-                setEstadoBooleano(true);
+                showError({
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor. Intenta más tarde.',
+                });
             }
             redirectHome(); //LO ENVIAMOS A HOME
         } else {
@@ -240,8 +248,10 @@ export const Login = () => {
                 await realizarPeticionPost(formCATE);
             } catch (error) {
                 console.error("Error al enviar los datos del usuario:", error);
-                setMensaje("Error al conectar con la API")
-                setEstadoBooleano(true);
+                showError({
+                    title: 'Error de conexión',
+                    text: 'No se pudo conectar con el servidor. Intenta más tarde.',
+                });
             }
             redirectHome(); //LO ENVIAMOS A HOME
         }
@@ -271,8 +281,10 @@ export const Login = () => {
                 );
             } catch (error) {
                 console.error("Error al inicializar Google Sign-In:", error);
-                setMensaje("Error al cargar Google Sign-In. Verifica la configuración.");
-                setEstadoBooleano(true);
+                showError({
+                    title: 'Error al cargar Google Sign-In',
+                    text: 'Verifica la configuración e intenta nuevamente.',
+                });
             }
         };
 
@@ -288,8 +300,10 @@ export const Login = () => {
             script.defer = true;
             script.onload = initializeGoogle;
             script.onerror = () => {
-                setMensaje("No se pudo cargar Google Sign-In. Revisa tu conexión e intenta de nuevo.");
-                setEstadoBooleano(true);
+                showError({
+                    title: 'No se pudo cargar Google Sign-In',
+                    text: 'Revisa tu conexión e intenta de nuevo.',
+                });
             };
             document.head.appendChild(script);
             scriptWasInjected = true;
@@ -334,8 +348,6 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [mostrarPassword, setMostrarPassword] = useState(false);
     const [cargandoCredenciales, setCargandoCredenciales] = useState(false);
-    const [mensaje, setMensaje] = useState('');
-    const [estadoBooleano, setEstadoBooleano] = useState(false);
     //RENDER
     return (
         <div className='login'>
@@ -374,12 +386,6 @@ export const Login = () => {
                 </form>
                 <p className='login-subtitle'>O continúa con tu cuenta de Google</p>
                 <div id='googleDIV' className='googlebtn'></div>
-                {
-                    estadoBooleano === true &&
-                    <div className='alertLogin'>
-                        {mensaje}
-                    </div>
-                }
             </article>
         </div>
     )

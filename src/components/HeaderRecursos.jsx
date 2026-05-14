@@ -1,29 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import * as LuIcons from "react-icons/lu";
 import { GLOBAL } from '../services/services';
 import axios from 'axios';
+import { showSuccess, showInfo } from '../utils/alerts';
 
 const HeaderRecursos = ({ id, img, tittle, tutor }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalError, setIsModalError] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const openModalError = () => {
-    setIsModalError(true);
-  };
-
-  const closeModalError = () => {
-    setIsModalError(false);
-  };
-
   // LOCAL STORAGE
   const mail = localStorage.getItem('EMAIL');
   const name = localStorage.getItem('NAME');
@@ -40,12 +22,16 @@ const HeaderRecursos = ({ id, img, tittle, tutor }) => {
           'Content-Type': 'application/json',
         },
       });
-      openModal();
-      // console.log(response.data);
+      showSuccess({
+        title: '¡Ahora eres miembro de este curso!',
+        text: 'Has sido inscrito correctamente. ¡Disfruta del contenido!',
+      });
       return response.data;
     } catch (error) {
-      openModalError();
-      //console.error('Error in the request:', error);
+      showInfo({
+        title: 'Ya estás inscrito',
+        text: 'Usted ya forma parte de este curso.',
+      });
       throw error;
     }
   };
@@ -58,22 +44,6 @@ const HeaderRecursos = ({ id, img, tittle, tutor }) => {
         <p>{tutor}</p>
         <button onClick={handleAddMail}><LuIcons.LuMail />Unirse</button>
       </article>
-      {isModalOpen && (
-        <div className="modal-correo">
-          <div className="modal-content-correo">
-            <h2>¡Ahora eres miembro de este curso!</h2>
-            <button className="boton-confirm" onClick={closeModal}>Aceptar</button>
-          </div>
-        </div>
-      )}
-      {modalError && (
-          <div className="modal-correo">
-            <div className="modal-content-correo">
-              <h2>¡Usted ya está inscrito a este curso!</h2>
-              <button className="boton-confirm" onClick={closeModalError}>Aceptar</button>
-            </div>
-          </div>
-        )}
     </div>
   );
 };

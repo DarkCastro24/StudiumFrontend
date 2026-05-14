@@ -1,24 +1,24 @@
 import './assets/styles/App.scss';
 import { BrowserRouter as Router, Routes, Route, Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Login from './views/Login';
-import Home from './views/Home';
-import Header from './components/Header';
-import Navbar from './components/Navbar';
-import Correo from './views/Correo';
-import Metabuscador from './views/Metabuscador';
-import PerfilEditar from './views/PerfilEditar';
-import FormCurso from './views/FormCurso';
-import Recursos from './views/Recursos';
+import LoginPage from './views/LoginPage';
+import HomePage from './views/HomePage';
+import AppHeader from './components/AppHeader';
+import SidebarMenu from './components/SidebarMenu';
+import MessagesPage from './views/MessagesPage';
+import SearchPage from './views/SearchPage';
+import StudentProfilePage from './views/StudentProfilePage';
+import CreateCoursePage from './views/CreateCoursePage';
+import CourseResourcesPage from './views/CourseResourcesPage';
 import axios from "axios";
-import PerfilVista from './views/PerfilVista';
-import PerfilBuscar from './views/PerfilBuscar';
-import { GLOBAL } from './services/services';
+import TeacherProfilePage from './views/TeacherProfilePage';
+import UserProfilePage from './views/UserProfilePage';
+import { GLOBAL } from './services/apiConfig';
 
 const AppLayout = () => (
   <>
-    <Header />
-    <Navbar />
+    <AppHeader />
+    <SidebarMenu />
     <Outlet />
   </>
 );
@@ -62,21 +62,21 @@ function App() {
               path="/perfil"
               element={
                 <>
-                  {userType === 2 && <PerfilEditar />}
-                  {userType === 3 && <PerfilVista />}
+                  {userType === 2 && <StudentProfilePage />}
+                  {userType === 3 && <TeacherProfilePage />}
                 </>
               }
             />
-            <Route path="/search/user/:id" element={<PerfilBuscar />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/messages" element={<Correo />} />
-            <Route path="/search" element={<Metabuscador />} />
-            <Route path="/recursos" element={<Recursos />} />
-            <Route path="/perfil/agregar-curso" element={<FormCurso />} />
+            <Route path="/search/user/:id" element={<UserProfilePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/recursos" element={<CourseResourcesPage />} />
+            <Route path="/perfil/agregar-curso" element={<CreateCoursePage />} />
           </Route>
         </Route>
-        <Route path="/login" index element={<Login />} />
-        <Route path="/" element={<Login />} />
+        <Route path="/login" index element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
       </Routes>
     </Router>
 

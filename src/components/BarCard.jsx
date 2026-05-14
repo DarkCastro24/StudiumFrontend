@@ -4,6 +4,7 @@ import icon from './../assets//img/libro.png';
 import axios from 'axios';
 import { GLOBAL } from '../services/services';
 import { ModalRecursoEditar } from './ModalRecursoEditar';
+import { showConfirm, showSuccess, showError } from '../utils/alerts';
 
 const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
 //FUNCION TEXT TO LINKS
@@ -23,16 +24,31 @@ const BarCard = ({ id, titulo, textContent, owner, id_curso }) => {
     const htmlConLinks = convertirTextoAHtml(textContent);
     //ELIMINAR RECURSO
     const handleDeleteR = async () => {
-        axios.delete(`${API_URL}/course/${id_curso}/resource/${id}`)
-            .then(response => {
-                // Manejo de la respuesta
-                console.log(response.data);
-                window.location.reload();
-            })
-            .catch(error => {
-                // Manejo del error
-                console.error("Hubo un error en la solicitud: ", error);
+        const confirmed = await showConfirm({
+            title: '¿Eliminar recurso?',
+            text: 'Esta acción eliminará el recurso de forma permanente.',
+            icon: 'warning',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (!confirmed) return;
+
+        try {
+            const response = await axios.delete(`${API_URL}/course/${id_curso}/resource/${id}`);
+            console.log(response.data);
+            await showSuccess({
+                title: 'Recurso eliminado',
+                text: 'El recurso fue eliminado correctamente.',
             });
+            window.location.reload();
+        } catch (error) {
+            console.error("Hubo un error en la solicitud: ", error);
+            showError({
+                title: 'No se pudo eliminar el recurso',
+                text: 'Ocurrió un error al eliminar. Intenta nuevamente.',
+            });
+        }
     }
 
     return (

@@ -4,23 +4,13 @@ import { Link } from "react-router-dom";
 import '../assets/styles/components/_formCurso.scss';
 import { GLOBAL } from '../services/services';
 import { useUserData } from '../hooks/useUserData';
+import { showSuccess, showError, showWarning } from '../utils/alerts';
 
 const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const userId = localStorage.getItem("ID");
     const { userData } = useUserData(userId);
-    const [errors, setErrors] = useState("");
     const imagenInputRef = useRef(null);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const openModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
     const name_user = userData ? userData.nombre : "";
     const [formState, setFormState] = useState(
@@ -106,7 +96,10 @@ const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
         const validationErrors = validateForm(formState);
 
         if (validationErrors.length > 0) {
-            setErrors(validationErrors.join(", "));
+            showWarning({
+                title: 'Revisa el formulario',
+                text: validationErrors.join(", "),
+            });
             return;
         }
         try {
@@ -118,7 +111,10 @@ const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
 
             if (response.status === 201) {
                 onSubmit(formState);
-                openModal();
+                showSuccess({
+                    title: '¡Curso creado exitosamente!',
+                    text: 'El curso se registró correctamente y ya está disponible.',
+                });
 
                 setFormState({
                     id_tutor: `${userId}`,
@@ -132,13 +128,20 @@ const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
                     objetivos: "",
                     descripcion: "",
                 });
-                setErrors("");
             } else {
                 console.error("Error al enviar la información. Estado de respuesta:", response.status);
                 console.error("Respuesta del servidor:", response.data);
+                showError({
+                    title: 'No se pudo crear el curso',
+                    text: 'El servidor respondió con un estado inesperado. Intenta nuevamente.',
+                });
             }
         } catch (error) {
             console.error("Error al enviar la información:", error);
+            showError({
+                title: 'Error al crear el curso',
+                text: 'No se pudo conectar con el servidor. Inténtalo más tarde.',
+            });
         }
     };
 
@@ -311,7 +314,6 @@ const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
                     />
                 </div>
 
-                {errors && <div className="error">{`Error: ${errors}`}</div>}
                 <div className="form-curso-btn-container">
                     <button type="submit" className="btn" onClick={handleSubmit}>
                         Guardar
@@ -323,14 +325,6 @@ const FormCurso = ({ onSubmit = () => { }, defaultValue }) => {
                     </Link>
                 </div>
             </form>
-            {isModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                    <h2>¡Curso creado exitosamente!</h2>
-                        <button className="boton-confirm" onClick={closeModal}>Confirmar</button>
-                    </div>
-                </div>
-            )}
         </main>
 
     );

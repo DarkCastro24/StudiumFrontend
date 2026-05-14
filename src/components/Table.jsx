@@ -4,29 +4,54 @@ import axios from "axios";
 import { BsFillTrashFill } from "react-icons/bs";
 import '../assets/styles/components/_table.scss'
 import { GLOBAL } from '../services/services';
+import { showConfirm, showSuccess, showError } from '../utils/alerts';
 
 const Table = ({ rows, deleteRow }) => {
     const API_URL = GLOBAL.map((e) => e.BASE_URL);
     const userId = localStorage.getItem("ID");
 
     const deleteOneMateria = async (_id, rowIndex) => {
-        try {
-            if (!_id) {
-                throw new Error("materiaId is required!");
-            }
+        if (!_id) {
+            showError({
+                title: 'Error',
+                text: 'No se pudo identificar la materia a eliminar.',
+            });
+            return;
+        }
 
+        const confirmed = await showConfirm({
+            title: '¿Eliminar materia?',
+            text: 'Esta acción eliminará la materia de tu perfil de forma permanente.',
+            icon: 'warning',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        });
+
+        if (!confirmed) return;
+
+        try {
             const response = await axios.delete(
                 `${API_URL}/user/profile/${userId}/${_id}`
             );
 
             if (response.status === 200) {
                 deleteRow(rowIndex);
-                console.log("Materia eliminada exitosamente");
+                showSuccess({
+                    title: 'Materia eliminada',
+                    text: 'La materia se eliminó correctamente.',
+                });
             } else {
-                console.log("La eliminación falló");
+                showError({
+                    title: 'No se pudo eliminar la materia',
+                    text: 'La operación no se completó. Intenta nuevamente.',
+                });
             }
         } catch (error) {
             console.error("Error al eliminar la materia:", error.message);
+            showError({
+                title: 'Error al eliminar la materia',
+                text: error.message || 'Ocurrió un error inesperado.',
+            });
         }
     };
 

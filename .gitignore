@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 node_modules
 .env
+
+# Keycloak realm export (puede contener secrets de identity providers)
+keycloak/import/*.json

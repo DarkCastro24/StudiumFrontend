@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { GLOBAL } from '../services/services';
+import { GLOBAL } from '../services/apiConfig';
 
 export const useUserData = (userId) => {
   const API_URL = GLOBAL[0].BASE_URL;

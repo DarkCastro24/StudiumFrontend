@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import '../assets/styles/components/_tableMat.scss';
 import { GLOBAL } from '../services/services';
+import { showError } from '../utils/alerts';
 
 const TableMatVista = () => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     const params = useParams();
 
@@ -18,10 +18,16 @@ const TableMatVista = () => {
             if (response.status === 200) {
                 setUserData(response.data);
             } else {
-                setError(`Error al obtener los datos del usuario. Estado de respuesta: ${response.status}`);
+                showError({
+                    title: 'No se pudieron obtener los datos',
+                    text: `Error al obtener los datos del usuario. Estado: ${response.status}`,
+                });
             }
         } catch (error) {
-            setError(`Error al obtener los datos del usuario: ${error.message}`);
+            showError({
+                title: 'Error al cargar el perfil',
+                text: error.message || 'Ocurrió un error inesperado.',
+            });
         } finally {
             setLoading(false);
         }
@@ -33,10 +39,6 @@ const TableMatVista = () => {
 
     if (loading) {
         return <p>Cargando datos...</p>;
-    }
-
-    if (error) {
-        return <p>Error: {error}</p>;
     }
 
     return (

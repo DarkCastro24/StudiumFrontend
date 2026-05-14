@@ -62,19 +62,38 @@ body div.login {
         padding: .8rem;
     }
 
-    button.btn-login-google {
+    button.btn-login-keycloak {
         background-color: $color-blanco;
-        font-size: 1.2rem;
+        color: $color-azul;
+        font-size: 1.05rem;
         font-family: $tipografia;
         border: none;
         border-radius: .5rem;
-        padding: .7rem;
+        padding: .65rem 1rem;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .55rem;
+
+        svg {
+            font-size: 1.25rem;
+            color: $color-azul;
+        }
+
+        &:hover:not(:disabled) {
+            background-color: darken($color-blanco, 5%);
+        }
+
+        &:disabled {
+            opacity: .7;
+            cursor: not-allowed;
+        }
     }
-    div.googlebtn{
+    div.keycloakbtn{
         display: flex;
         @include centrar-elemento;
-        transform: scale(1.1);
+        transform: scale(1.05);
         padding: auto;
     }
 
@@ -187,7 +206,7 @@ body div.login {
             font-size: 1rem;
         }
 
-        div.googlebtn{
+        div.keycloakbtn{
             display: flex;
             @include centrar-elemento;
             transform: scale(1);

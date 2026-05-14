@@ -1,7 +1,6 @@
 import BarCard from '../components/BarCard';
 import HeaderRecursos from '../components/HeaderRecursos';
 import ContentRecursos from '../components/ContentRecursos';
-import ConfirmationModal from '../components/ConfirmationModal';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -9,11 +8,11 @@ import { GLOBAL } from '../services/services';
 import { ModalAgregarRecurso } from '../components/ModalAgregarRecurso';
 import { BsFillTrashFill } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
+import { showConfirm, showSuccess, showError } from '../utils/alerts';
 
 const Recursos = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalO, setIsModalO] = useState(false);
   //VARIABLES GLOBALES
   const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
   //LOCAL STORAGE
@@ -46,15 +45,30 @@ const Recursos = () => {
     navigate('/home');
   };
   const handleDelete = async () => {
+    const confirmed = await showConfirm({
+      title: 'Confirmar eliminación',
+      text: '¿Estás seguro de que deseas eliminar este curso? Esta acción no se puede deshacer.',
+      icon: 'warning',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    });
+
+    if (!confirmed) return;
+
     try {
       const response = await axios.delete(`${API_URL}/course/${id}`);
       console.log('Elemento eliminado:', response.data);
-      setIsModalOpen(false);
+      await showSuccess({
+        title: 'Curso eliminado',
+        text: 'El curso fue eliminado correctamente.',
+      });
       redirectHome();
-      // Aquí puedes agregar lógica adicional después de la eliminación exitosa.
     } catch (error) {
       console.error('Hubo un error al eliminar:', error);
-      // Manejar el error aquí.
+      showError({
+        title: 'No se pudo eliminar el curso',
+        text: 'Ocurrió un error durante la eliminación. Intenta nuevamente.',
+      });
     }
   };
 
@@ -74,17 +88,12 @@ const Recursos = () => {
                 <button onClick={() => setIsModalOpen(true)} className='CreateRecurso'>
                   Crear nuevo recurso
                 </button>
-                <button onClick={() => setIsModalO(true)} className='CreateRecurso-D'>
+                <button onClick={handleDelete} className='CreateRecurso-D'>
                   <BsFillTrashFill />
                 </button>
               </>
             ) : null
           }
-          <ConfirmationModal
-            isOpen={isModalO}
-            onClose={() => setIsModalO(false)}
-            onConfirm={handleDelete}
-          />
 
           {course.recursos && Array.isArray(course.recursos) && course.recursos.map(r => (
             <BarCard key={r._id} id={r._id} textContent={r.descripcion} titulo={r.titulo} owner={owner.toString()} id_curso={id_curso}></BarCard>

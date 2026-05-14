@@ -3,6 +3,7 @@ import '../assets/styles/components/_modal.scss';
 import axios from "axios";
 import { GLOBAL } from '../services/services';
 import PropTypes from 'prop-types';
+import { showSuccess, showError } from '../utils/alerts';
 
 export const ModalRecursoEditar = ({ idRecurso, idCurso, closeModal, onSubmit, title, content, defaultValue }) => {
     const API_URL = GLOBAL.map((e) => { return e.BASE_URL });
@@ -12,7 +13,6 @@ export const ModalRecursoEditar = ({ idRecurso, idCurso, closeModal, onSubmit, t
             descripcion: content
         }
     );
-    const [errors, setErrors] = useState("");
 /*
 const validateForm = () => {
     // FALTAN VALIDACIONES AYUDAAAA
@@ -39,7 +39,6 @@ const validateForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        //if (!validateForm()) return;
         try {
             const response = await axios.patch(`${API_URL}/course/${idCurso}/resource/${idRecurso}`, formState);
 
@@ -48,16 +47,26 @@ const validateForm = () => {
             if (response.status === 200 || response.status === 201) {
                 console.log("Información enviada correctamente:", response.data);
                 onSubmit(formState);
+                await showSuccess({
+                    title: 'Recurso actualizado',
+                    text: 'Los cambios se guardaron correctamente.',
+                });
                 closeModal();
                 window.location.reload();
             } else {
                 console.error("Error al enviar la información. Estado de respuesta:", response.status);
                 console.error("Respuesta del servidor:", response.data);
-                setErrors("Error al enviar la información. Verifica los datos e intenta nuevamente.");
+                showError({
+                    title: 'No se pudo actualizar el recurso',
+                    text: 'Verifica los datos e intenta nuevamente.',
+                });
             }
         } catch (error) {
             console.error("Error al enviar la información:", error);
-            setErrors("Error de conexión. Inténtalo nuevamente más tarde.");
+            showError({
+                title: 'Error de conexión',
+                text: 'No se pudo conectar con el servidor. Inténtalo nuevamente más tarde.',
+            });
         }
     };
 
@@ -89,7 +98,6 @@ const validateForm = () => {
                             value={formState.descripcion}
                         />
                     </div>
-                    {errors && <div className="error">{`Error: ${errors}`}</div>}
                     <button type="submit" className="btn">
                         Guardar
                     </button>
